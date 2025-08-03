@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
+  
 }
 
 datasource db {
@@ -18,8 +18,8 @@ model User {
   email     String   @unique
   password  String
   profilePicture String? @default("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png")
-  bio String
-  name String
+  bio String?
+  username String
   createdAt DateTime @default(now()) 
   updatedAt DateTime @updatedAt
   links Link[]
