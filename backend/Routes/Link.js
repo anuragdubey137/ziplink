@@ -74,24 +74,24 @@ LinkRouter.put('/', async (req, res) => {
 
   return res.json({ id: link.id });
 });
-
-LinkRouter.get('/:id', async (req, res) => {
-  const id = req.params.id;
-  const link = await prisma.link.findUnique({
-    where: { id: Number(id) },
-    select: {
-      id: true,
-      title: true,
-      url: true,
-      user: {
+LinkRouter.get('/:username', async(req, res) => {
+    const username = req.params.username;
+    const user = await prisma.user.findUnique({
+        where: { username },
+    });
+    if (!user) {
+        return res.status(404).json({ error: "User not found" });
+    }
+    const links = await prisma.link.findMany({
+        where: { userId: user.id },
         select: {
-          username: true,
-        },
-      },
-    },
-  });
+            title: true,
+            url: true,}
+    });
+    return res.json({
+        links
+    });
+})
 
-  return res.json({ link });
-});
 
 module.exports = { LinkRouter };
