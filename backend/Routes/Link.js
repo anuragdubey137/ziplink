@@ -74,9 +74,10 @@ LinkRouter.put('/', async (req, res) => {
 
   return res.json({ id: link.id });
 });
+
 LinkRouter.get('/:username', async(req, res) => {
     const username = req.params.username;
-    const user = await prisma.user.findUnique({
+    const user = await prisma.user.findFirst({
         where: { username },
     });
     if (!user) {
@@ -91,7 +92,6 @@ LinkRouter.get('/:username', async(req, res) => {
     return res.json({
         links
     });
-})
-
+});
 
 module.exports = { LinkRouter };
